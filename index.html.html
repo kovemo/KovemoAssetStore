@@ -5,80 +5,129 @@
   <title>Tung Tung Arena Shop</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    * { box-sizing: border-box; }
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      color: #fff;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      min-height: 100vh;
     }
     header {
-      padding: 30px;
+      padding: 50px 20px;
       text-align: center;
-      background: #111;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
     }
     header h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       margin: 0;
+      background: linear-gradient(90deg, #4ade80, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 3s infinite alternate;
     }
-    header p {
-      color: #aaa;
+    header p { color: #cbd5e1; }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(34,211,238,0.3); }
+      to { text-shadow: 0 0 25px rgba(74,222,128,0.7); }
     }
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #1e1e1e;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card h2 {
-      margin-top: 0;
-    }
-    .price {
-      font-size: 1.5rem;
-      color: #4ade80;
-      margin: 10px 0;
-    }
-    .buy-btn {
-      background: #4ade80;
-      color: #000;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .buy-btn:hover {
-      background: #22c55e;
-    }
+
     .info {
       max-width: 800px;
       margin: 0 auto 40px;
-      background: #111;
       padding: 20px;
-      border-radius: 12px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 16px;
       text-align: center;
-      color: #facc15;
+      backdrop-filter: blur(10px);
+      color: #fde047;
     }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    }
+    .card h2 { margin-top: 0; }
+    .price { font-size: 1.6rem; color: #4ade80; }
+
+    .buy-btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #4ade80, #22d3ee);
+      color: #000;
+    }
+    .buy-btn:hover { filter: brightness(1.1); }
+
     footer {
       text-align: center;
-      padding: 20px;
-      color: #777;
-      font-size: 0.9rem;
+      padding: 30px;
+      color: #94a3b8;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal.active { display: flex; }
+    .modal-box {
+      background: #020617;
+      padding: 30px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      animation: pop .25s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-box h3 { margin-top: 0; }
+    .modal-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: none;
+      background: #020617;
+      color: #fff;
+      border: 1px solid #334155;
+    }
+    .modal-box button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      background: linear-gradient(90deg, #4ade80, #22d3ee);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -90,56 +139,43 @@
 </header>
 
 <div class="info">
-  💳 Płatności przyjmowane <b>TYLKO</b> przez <b>Paysafecard</b><br />
-  Po zakupie rangę / klucz nadaje administracja ręcznie (no scam mf 😎)
+  💳 Płatność tylko <b>Paysafecard</b> • Rangi i klucze nadawane ręcznie przez administrację
 </div>
 
 <div class="container">
-  <div class="card">
-    <h2>Klucz GVIP</h2>
-    <div class="price">3 zł</div>
-    <button class="buy-btn" onclick="buy('Klucz GVIP - 3zł')">Kup</button>
-  </div>
+  <div class="card"><h2>Klucz GVIP</h2><div class="price">3 zł</div><button class="buy-btn" onclick="openModal('Klucz GVIP - 3zł')">Kup</button></div>
+  <div class="card"><h2>Klucz VIP</h2><div class="price">2 zł</div><button class="buy-btn" onclick="openModal('Klucz VIP - 2zł')">Kup</button></div>
+  <div class="card"><h2>Ranga GVIP</h2><div class="price">10 zł</div><button class="buy-btn" onclick="openModal('Ranga GVIP - 10zł')">Kup</button></div>
+  <div class="card"><h2>Ranga VIP</h2><div class="price">5 zł</div><button class="buy-btn" onclick="openModal('Ranga VIP - 5zł')">Kup</button></div>
+</div>
 
-  <div class="card">
-    <h2>Klucz VIP</h2>
-    <div class="price">2 zł</div>
-    <button class="buy-btn" onclick="buy('Klucz VIP - 2zł')">Kup</button>
-  </div>
+<footer>© 2025 Tung Tung Arena • minecraft energy only</footer>
 
-  <div class="card">
-    <h2>Ranga GVIP</h2>
-    <div class="price">10 zł</div>
-    <button class="buy-btn" onclick="buy('Ranga GVIP - 10zł')">Kup</button>
-  </div>
-
-  <div class="card">
-    <h2>Ranga VIP</h2>
-    <div class="price">5 zł</div>
-    <button class="buy-btn" onclick="buy('Ranga VIP - 5zł')">Kup</button>
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="productName"></h3>
+    <input id="nick" placeholder="Nick Minecraft" />
+    <input id="code" placeholder="Kod Paysafecard" />
+    <button onclick="sendOrder()">Wyślij zakup</button>
   </div>
 </div>
 
-<footer>
-  © 2025 Tung Tung Arena • made with chaos & minecraft vibes
-</footer>
-
 <script>
-  function buy(product) {
-    const nick = prompt('Podaj swój nick z Minecrafta:');
-    if (!nick) return;
-
-    const code = prompt('Wpisz kod Paysafecard:');
-    if (!code) return;
+  let selectedProduct = '';
+  function openModal(product) {
+    selectedProduct = product;
+    document.getElementById('productName').innerText = product;
+    document.getElementById('modal').classList.add('active');
+  }
+  function sendOrder() {
+    const nick = document.getElementById('nick').value;
+    const code = document.getElementById('code').value;
+    if (!nick || !code) return alert('Uzupełnij wszystkie pola');
 
     const subject = encodeURIComponent('Nowy zakup – Tung Tung Arena');
-    const body = encodeURIComponent(
-      'Produkt: ' + product + '\n' +
-      'Nick gracza: ' + nick + '\n' +
-      'Kod Paysafecard: ' + code
-    );
-
+    const body = encodeURIComponent(`Produkt: ${selectedProduct}\nNick: ${nick}\nKod Paysafecard: ${code}`);
     window.location.href = `mailto:kleb258@gmail.com?subject=${subject}&body=${body}`;
+    document.getElementById('modal').classList.remove('active');
   }
 </script>
 
