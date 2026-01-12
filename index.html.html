@@ -1,158 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robie Bity – Assets</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kovemo Asset Store</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+    :root{
+      --bg1:#0b0b0f;
+      --bg2:#0f1115;
+      --accent:#7c5cff;
+      --muted:#9aa0b4;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      background: radial-gradient(circle at top, #1e1e2f, #0a0a12);
-      overflow-x: hidden;
+    /* Page reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      color:#e6e9ef;
+      background: linear-gradient(120deg,var(--bg1),var(--bg2));
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    .bg {
-      position: fixed;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(120deg, #7f5cff, #00ffd5, #ff4ecd);
-      animation: moveBg 15s ease-in-out infinite alternate;
-      filter: blur(120px);
-      opacity: 0.35;
-      z-index: -1;
+    /* Animated gradient overlay */
+    .gradient {
+      position:fixed;inset:0;z-index:0;
+      background: linear-gradient(60deg, rgba(124,92,255,0.12), rgba(0,0,0,0) 30%, rgba(0,0,0,0.12));
+      mix-blend-mode:screen;
+      animation: moveGradient 12s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes moveGradient{
+      0%{transform:translate3d(-10%, -5%, 0) rotate(0deg)}
+      50%{transform:translate3d(10%, 5%, 0) rotate(3deg)}
+      100%{transform:translate3d(-10%, -5%, 0) rotate(0deg)}
     }
 
-    @keyframes moveBg {
-      0% { transform: translate(-20%, -20%); }
-      100% { transform: translate(-40%, -10%); }
+    /* Floating particles */
+    .particles{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.015) 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.01) 0 2px, transparent 3px);
+      background-size: 100% 100%;
+      animation: floatParticles 18s linear infinite;
+      filter: blur(0.6px);
+    }
+    @keyframes floatParticles{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-8px)}
+      100%{transform:translateY(0)}
     }
 
-    .card {
-      position: relative;
-      z-index: 2;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(12px);
-      padding: 40px 50px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
-      margin: 20px;
+    /* Main container */
+    .wrap{
+      position:relative;z-index:2;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:48px 24px;
     }
 
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 15px;
+    .card{
+      width:100%;
+      max-width:980px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      padding:36px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px) saturate(120%);
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:28px;
+      align-items:center;
     }
 
-    p {
-      opacity: 0.85;
-      margin-bottom: 30px;
+    header h1{
+      font-size:28px;
+      letter-spacing:0.6px;
+      margin-bottom:8px;
+      color:linear-gradient(90deg,#fff,#dfe4ff);
+    }
+    header p{
+      color:var(--muted);
+      margin-bottom:18px;
+      font-size:15px;
     }
 
-    .buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
     }
 
-    a, button {
-      padding: 14px 26px;
-      border-radius: 999px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    .tag{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(124,92,255,0.14), rgba(124,92,255,0.06));
+      color:var(--accent);
+      font-weight:600;
+      font-size:13px;
+      width:max-content;
     }
 
-    a {
-      background: linear-gradient(135deg, #ff4ecd, #7f5cff);
-      color: white;
-      box-shadow: 0 10px 30px rgba(127,92,255,0.4);
+    .desc{
+      color:var(--muted);
+      line-height:1.5;
+      font-size:15px;
     }
 
-    a:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 15px 40px rgba(127,92,255,0.6);
+    /* Buttons */
+    .actions{
+      display:flex;
+      gap:12px;
+      margin-top:6px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:10px;
+      font-weight:600;
+      font-size:15px;
+      text-decoration:none;
+      color:#0b0b0f;
+      background:linear-gradient(90deg,#ffd86b,#ff9a3d);
+      box-shadow: 0 6px 18px rgba(255,154,61,0.12);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    .btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.45)}
+    .btn.secondary{
+      background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      color:#e6e9ef;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:none;
+    }
+    .btn.youtube{background:linear-gradient(90deg,#ff4b4b,#ff2b2b); color:white}
+    .btn .icon{
+      width:18px;height:18px;display:inline-block;border-radius:4px;flex:0 0 18px;
+      background:rgba(0,0,0,0.08);display:grid;place-items:center;font-size:12px;
     }
 
-    button {
-      background: #2a2a3a;
-      color: #aaa;
-      cursor: not-allowed;
-      opacity: 0.6;
+    /* Disabled coming soon */
+    .btn.disabled{
+      opacity:0.5;
+      pointer-events:none;
+      filter:grayscale(0.2);
+      position:relative;
+    }
+    .coming{
+      display:inline-block;
+      margin-left:8px;
+      font-size:12px;
+      color:var(--muted);
+      background:transparent;
+      padding:4px 8px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.02);
     }
 
-    .section {
-      background: rgba(0,0,0,0.45);
-      padding: 30px 40px;
-      border-radius: 20px;
-      margin: 20px;
-      max-width: 800px;
-      text-align: center;
-      backdrop-filter: blur(10px);
+    /* Right column card */
+    .panel{
+      padding:18px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:14px;
     }
+    .panel h3{color:#fff;margin-bottom:10px;font-size:16px}
+    .panel ul{margin-top:8px;list-style:none;padding-left:0;display:flex;flex-direction:column;gap:8px}
+    .panel li{display:flex;gap:10px;align-items:flex-start}
+    .panel li .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:6px;flex:0 0 8px}
 
-    .section h2 {
-      margin-bottom: 20px;
-      font-size: 2rem;
-      color: #ff4ecd;
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr; padding:22px}
+      .panel{order:2}
     }
-
-    .section p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #eee;
-    }
-
-    footer {
-      margin: 30px 0;
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-
   </style>
 </head>
 <body>
-  <div class="bg"></div>
+  <div class="gradient" aria-hidden="true"></div>
+  <div class="particles" aria-hidden="true"></div>
 
-  <div class="card">
-    <h1>Kovemo Asset Store</h1>
-    <p>Unity Assets and Game Resources</p>
+  <main class="wrap" role="main">
+    <section class="card" aria-labelledby="site-title">
+      <div class="hero">
+        <header id="site-title">
+          <div class="tag">Kovemo</div>
+          <h1>Kovemo Asset Store</h1>
+          <p class="desc">High-quality Unity assets and tools. Showcases on YouTube, community updates on Discord.</p>
+        </header>
 
-    <div class="buttons">
-      <a href="https://www.youtube.com/@RobiemBity" target="_blank">YouTube</a>
-      <button disabled>Discord (coming soon)</button>
-    </div>
-  </div>
+        <div>
+          <p class="desc"><strong>What you will find</strong><br>
+          On our YouTube channel you will find showcase videos demonstrating assets in action, setup tips, and performance notes. Discord will host news, release notes, and community discussion — coming soon.</p>
+        </div>
 
-  <div class="section">
-    <h2>What You Can Find</h2>
-    <p>Videos showcasing Unity assets, tutorials, and examples of how to use resources in games. Perfect for easy game development and level design.</p>
-  </div>
+        <div class="actions" role="navigation" aria-label="Primary actions">
+          <a class="btn youtube" href="https://www.youtube.com/@RobiemBity" target="_blank" rel="noopener noreferrer" title="Visit our YouTube channel">
+            <span class="icon" aria-hidden="true">▶</span>
+            YouTube Showcase
+          </a>
 
-  <div class="section">
-    <h2>Future Plans</h2>
-    <p>Expanding the Discord with bots, a downloadable asset section, updates, and new asset packs every few weeks.</p>
-  </div>
+          <a class="btn secondary disabled" href="#" aria-disabled="true" title="Discord coming soon">
+            <span class="icon" aria-hidden="true">💬</span>
+            Discord Server
+            <span class="coming">Coming Soon</span>
+          </a>
+        </div>
 
-  <footer>
-    © 2026 • Unity Assets & Dev Stuff
-  </footer>
+        <footer>
+          <p><strong>Note</strong> — All content and assets will be presented in English to reach an international audience.</p>
+        </footer>
+      </div>
+
+      <aside class="panel" aria-labelledby="panel-title">
+        <h3 id="panel-title">Quick Info</h3>
+        <ul>
+          <li><span class="dot" aria-hidden="true"></span><strong>YouTube</strong> Showcase videos and asset walkthroughs.</li>
+          <li><span class="dot" aria-hidden="true"></span><strong>Discord</strong> News, release notes, community chat (coming soon).</li>
+          <li><span class="dot" aria-hidden="true"></span><strong>Assets</strong> Optimized for Unity, easy to integrate, documented.</li>
+        </ul>
+
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">
+          <strong>Pro tip</strong><br>
+          Use clear showcase videos and short setup guides to increase trust and conversions on the Asset Store.
+        </div>
+      </aside>
+    </section>
+  </main>
 </body>
 </html>
