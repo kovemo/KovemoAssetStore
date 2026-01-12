@@ -6,242 +6,397 @@
   <title>Kovemo Asset Store</title>
   <style>
     :root{
-      --bg1:#0b0b0f;
-      --bg2:#0f1115;
       --accent:#7c5cff;
       --muted:#9aa0b4;
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.02);
+      --bg:#000;
+      --panel-bg: rgba(255,255,255,0.02);
+      --panel-border: rgba(255,255,255,0.03);
+      --ripple: rgba(255,255,255,0.06);
     }
-
-    /* Page reset */
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
       color:#e6e9ef;
-      background: linear-gradient(120deg,var(--bg1),var(--bg2));
+      background:var(--bg);
       overflow:hidden;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
 
-    /* Animated gradient overlay */
-    .gradient {
-      position:fixed;inset:0;z-index:0;
-      background: linear-gradient(60deg, rgba(124,92,255,0.12), rgba(0,0,0,0) 30%, rgba(0,0,0,0.12));
-      mix-blend-mode:screen;
-      animation: moveGradient 12s linear infinite;
-      pointer-events:none;
-    }
-    @keyframes moveGradient{
-      0%{transform:translate3d(-10%, -5%, 0) rotate(0deg)}
-      50%{transform:translate3d(10%, 5%, 0) rotate(3deg)}
-      100%{transform:translate3d(-10%, -5%, 0) rotate(0deg)}
-    }
-
-    /* Floating particles */
-    .particles{
+    /* Enhanced layered starfield with motion */
+    .stars {
       position:fixed;inset:0;z-index:0;pointer-events:none;
-      background-image:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02) 0 2px, transparent 3px),
-        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.015) 0 2px, transparent 3px),
-        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.01) 0 2px, transparent 3px);
-      background-size: 100% 100%;
-      animation: floatParticles 18s linear infinite;
-      filter: blur(0.6px);
+      background:
+        /* tiny background grid */
+        radial-gradient(circle at 4% 8%, rgba(255,255,255,0.85) 0 1px, transparent 2px),
+        radial-gradient(circle at 18% 22%, rgba(255,255,255,0.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 32% 6%, rgba(255,255,255,0.75) 0 1px, transparent 2px),
+        radial-gradient(circle at 46% 36%, rgba(255,255,255,0.9) 0 1.2px, transparent 2px),
+        radial-gradient(circle at 60% 12%, rgba(255,255,255,0.85) 0 1px, transparent 2px),
+        radial-gradient(circle at 74% 28%, rgba(255,255,255,0.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 6%, rgba(255,255,255,0.78) 0 1px, transparent 2px),
+
+        /* medium stars */
+        radial-gradient(circle at 10% 70%, rgba(255,255,255,0.95) 0 1.6px, transparent 2px),
+        radial-gradient(circle at 28% 54%, rgba(255,255,255,0.92) 0 1.8px, transparent 2px),
+        radial-gradient(circle at 46% 78%, rgba(255,255,255,0.9) 0 1.8px, transparent 2px),
+        radial-gradient(circle at 64% 60%, rgba(255,255,255,0.9) 0 1.6px, transparent 2px),
+        radial-gradient(circle at 82% 86%, rgba(255,255,255,0.88) 0 1.6px, transparent 2px),
+
+        /* larger stars placed like constellations */
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.98) 0 3.6px, transparent 4px),
+        radial-gradient(circle at 38% 42%, rgba(255,255,255,0.98) 0 3.2px, transparent 4px),
+        radial-gradient(circle at 58% 28%, rgba(255,255,255,0.98) 0 4px, transparent 5px),
+        radial-gradient(circle at 78% 56%, rgba(255,255,255,0.96) 0 3.8px, transparent 5px);
+      background-repeat:no-repeat;
+      animation: driftSlow 60s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(124,92,255,0.06));
+      transform-origin:center;
     }
-    @keyframes floatParticles{
-      0%{transform:translateY(0)}
-      50%{transform:translateY(-8px)}
-      100%{transform:translateY(0)}
+    .stars::after{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 6% 50%, rgba(255,255,255,0.06) 0 2px, transparent 3px),
+        radial-gradient(circle at 26% 10%, rgba(255,255,255,0.05) 0 2px, transparent 3px),
+        radial-gradient(circle at 46% 60%, rgba(255,255,255,0.04) 0 2px, transparent 3px),
+        radial-gradient(circle at 66% 30%, rgba(255,255,255,0.05) 0 2px, transparent 3px),
+        radial-gradient(circle at 86% 70%, rgba(255,255,255,0.04) 0 2px, transparent 3px);
+      background-repeat:no-repeat;
+      animation: driftFaster 40s linear infinite;
+      mix-blend-mode: screen;
+      opacity:0.95;
+    }
+    @keyframes driftSlow{
+      0%{transform:translate3d(0,0,0) rotate(0deg)}
+      50%{transform:translate3d(-12px,-8px,0) rotate(0.2deg)}
+      100%{transform:translate3d(0,0,0) rotate(0deg)}
+    }
+    @keyframes driftFaster{
+      0%{transform:translate3d(0,0,0) rotate(0deg)}
+      50%{transform:translate3d(10px,14px,0) rotate(-0.3deg)}
+      100%{transform:translate3d(0,0,0) rotate(0deg)}
     }
 
-    /* Main container */
-    .wrap{
-      position:relative;z-index:2;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:48px 24px;
+    /* subtle nebula glow */
+    .nebula{
+      position:fixed;left:6%;top:6%;width:88%;height:88%;z-index:0;pointer-events:none;
+      background: radial-gradient(30% 20% at 20% 30%, rgba(124,92,255,0.06), transparent 20%),
+                  radial-gradient(40% 30% at 75% 60%, rgba(0,200,255,0.03), transparent 25%);
+      mix-blend-mode: screen; filter: blur(36px); opacity:0.95; animation: nebMove 30s linear infinite;
     }
+    @keyframes nebMove{ 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(-12px,10px) scale(1.02)} 100%{transform:translate(0,0) scale(1)} }
 
-    .card{
-      width:100%;
-      max-width:980px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:14px;
-      padding:36px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      backdrop-filter: blur(6px) saturate(120%);
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:28px;
-      align-items:center;
+    /* Centered control area */
+    .center-wrap{
+      position:relative;z-index:2;min-height:100vh;
+      display:flex;align-items:center;justify-content:center;padding:28px;
     }
+    .controls {
+      display:flex;flex-direction:column;gap:14px;align-items:center;
+      background:transparent;padding:18px;border-radius:14px;
+      text-align:center;
+    }
+    .title{
+      font-weight:800;font-size:28px;margin-bottom:6px;letter-spacing:0.6px;
+      color:#fff;
+    }
+    .subtitle{color:var(--muted);font-size:13px;margin-bottom:12px}
 
-    header h1{
-      font-size:28px;
-      letter-spacing:0.6px;
-      margin-bottom:8px;
-      color:linear-gradient(90deg,#fff,#dfe4ff);
-    }
-    header p{
-      color:var(--muted);
-      margin-bottom:18px;
-      font-size:15px;
-    }
-
-    .hero{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
-
-    .tag{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(124,92,255,0.14), rgba(124,92,255,0.06));
-      color:var(--accent);
-      font-weight:600;
-      font-size:13px;
-      width:max-content;
-    }
-
-    .desc{
-      color:var(--muted);
-      line-height:1.5;
-      font-size:15px;
-    }
-
-    /* Buttons */
-    .actions{
-      display:flex;
-      gap:12px;
-      margin-top:6px;
-      flex-wrap:wrap;
-    }
+    /* Buttons row */
+    .btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
     .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 16px;
-      border-radius:10px;
-      font-weight:600;
-      font-size:15px;
-      text-decoration:none;
-      color:#0b0b0f;
-      background:linear-gradient(90deg,#ffd86b,#ff9a3d);
-      box-shadow: 0 6px 18px rgba(255,154,61,0.12);
+      position:relative;overflow:hidden;
+      padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;
+      color:#0b0b0b;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
       transition:transform .14s ease, box-shadow .14s ease;
+      min-width:120px;justify-content:center;cursor:pointer;border:none;
     }
-    .btn:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.45)}
-    .btn.secondary{
-      background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      color:#e6e9ef;
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow:none;
-    }
-    .btn.youtube{background:linear-gradient(90deg,#ff4b4b,#ff2b2b); color:white}
-    .btn .icon{
-      width:18px;height:18px;display:inline-block;border-radius:4px;flex:0 0 18px;
-      background:rgba(0,0,0,0.08);display:grid;place-items:center;font-size:12px;
+    .btn.youtube{background:linear-gradient(90deg,#ff4b4b,#ff2b2b);color:white;box-shadow:0 10px 30px rgba(255,43,43,0.12)}
+    .btn.products{background:linear-gradient(90deg,#6bd8ff,#4bb6ff);color:#021;box-shadow:0 10px 30px rgba(75,182,255,0.08)}
+    .btn.about{background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));color:#e6e9ef;border:1px solid var(--panel-border)}
+    .btn.discord{background:linear-gradient(90deg,#7289da,#5b6ea6);color:white;box-shadow:0 10px 30px rgba(90,110,170,0.08)}
+    .btn.contact{background:linear-gradient(90deg,#ffd86b,#ff9a3d);color:#021;box-shadow:0 10px 30px rgba(255,154,61,0.12)}
+    .btn:active{transform:translateY(-2px) scale(0.995)}
+    .btn:hover{transform:translateY(-6px)}
+
+    /* ripple effect element */
+    .ripple {
+      position:absolute;border-radius:50%;transform:scale(0);opacity:0.9;
+      background:var(--ripple);pointer-events:none;
     }
 
-    /* Disabled coming soon */
-    .btn.disabled{
-      opacity:0.5;
-      pointer-events:none;
-      filter:grayscale(0.2);
-      position:relative;
+    /* Modal overlay */
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:40;display:none;
+      align-items:center;justify-content:center;padding:20px;
+      transition:opacity .22s ease;
     }
-    .coming{
-      display:inline-block;
-      margin-left:8px;
-      font-size:12px;
-      color:var(--muted);
-      background:transparent;
-      padding:4px 8px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.02);
+    .overlay.active{display:flex;opacity:1}
+
+    /* Modal window with open/close animation */
+    .modal{
+      width:100%;max-width:900px;max-height:80vh;overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--panel-border);border-radius:12px;padding:18px;
+      box-shadow:0 20px 60px rgba(2,6,23,0.7);backdrop-filter: blur(8px);
+      display:flex;flex-direction:column;transform:scale(.96);opacity:0;transition:transform .22s cubic-bezier(.2,.9,.2,1),opacity .22s ease;
+    }
+    .overlay.active .modal{transform:scale(1);opacity:1}
+
+    .modal header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .modal h2{margin:0;color:#fff;font-size:18px}
+    .modal .close{
+      background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);
+      padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:700;
     }
 
-    /* Right column card */
-    .panel{
-      padding:18px;
-      border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03);
-      color:var(--muted);
-      font-size:14px;
+    /* Scrollable content area */
+    .modal .content{
+      margin-top:12px;overflow:auto;padding-right:8px;color:var(--muted);line-height:1.6;
     }
-    .panel h3{color:#fff;margin-bottom:10px;font-size:16px}
-    .panel ul{margin-top:8px;list-style:none;padding-left:0;display:flex;flex-direction:column;gap:8px}
-    .panel li{display:flex;gap:10px;align-items:flex-start}
-    .panel li .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:6px;flex:0 0 8px}
+    .modal .content::-webkit-scrollbar{width:10px}
+    .modal .content::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.04);border-radius:8px}
+    .modal .content p{margin-bottom:12px}
 
-    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    .product{background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02);padding:12px;border-radius:10px;margin-bottom:10px}
+    .product h4{margin:0 0 6px 0;color:#fff;font-size:15px}
+    .product p{margin:0;color:var(--muted);font-size:13px}
 
-    /* Responsive */
-    @media (max-width:880px){
-      .card{grid-template-columns:1fr; padding:22px}
-      .panel{order:2}
+    @media (max-width:720px){
+      .btn-row{flex-direction:column}
+      .modal{max-width:96vw;max-height:86vh}
     }
   </style>
 </head>
 <body>
-  <div class="gradient" aria-hidden="true"></div>
-  <div class="particles" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="nebula" aria-hidden="true"></div>
 
-  <main class="wrap" role="main">
-    <section class="card" aria-labelledby="site-title">
-      <div class="hero">
-        <header id="site-title">
-          <div class="tag">Kovemo</div>
-          <h1>Kovemo Asset Store</h1>
-          <p class="desc">High-quality Unity assets and tools. Showcases on YouTube, community updates on Discord.</p>
-        </header>
+  <main class="center-wrap" role="main">
+    <div class="controls" role="region" aria-label="Main controls">
+      <div class="title">Kovemo Asset Store</div>
+      <div class="subtitle">Unity assets • Showcases on YouTube • Discord invite available</div>
 
-        <div>
-          <p class="desc"><strong>What you will find</strong><br>
-          On our YouTube channel you will find showcase videos demonstrating assets in action, setup tips, and performance notes. Discord will host news, release notes, and community discussion — coming soon.</p>
-        </div>
-
-        <div class="actions" role="navigation" aria-label="Primary actions">
-          <a class="btn youtube" href="https://www.youtube.com/@RobiemBity" target="_blank" rel="noopener noreferrer" title="Visit our YouTube channel">
-            <span class="icon" aria-hidden="true">▶</span>
-            YouTube Showcase
-          </a>
-
-          <a class="btn secondary disabled" href="#" aria-disabled="true" title="Discord coming soon">
-            <span class="icon" aria-hidden="true">💬</span>
-            Discord Server
-            <span class="coming">Coming Soon</span>
-          </a>
-        </div>
-
-        <footer>
-          <p><strong>Note</strong> — All content and assets will be presented in English to reach an international audience.</p>
-        </footer>
+      <div class="btn-row" role="navigation" aria-label="Primary actions">
+        <a class="btn youtube" id="youtubeBtn" href="https://www.youtube.com/@RobiemBity" target="_blank" rel="noopener noreferrer">▶ YouTube</a>
+        <button class="btn products" id="productsBtn" aria-controls="productsModal">Products</button>
+        <button class="btn about" id="aboutBtn" aria-controls="aboutModal">About</button>
+        <a class="btn discord" id="discordLink" href="https://discord.gg/AYUP7nR6bM" target="_blank" rel="noopener noreferrer">Discord</a>
+        <button class="btn contact" id="contactBtn" aria-controls="contactModal">Contact</button>
       </div>
-
-      <aside class="panel" aria-labelledby="panel-title">
-        <h3 id="panel-title">Quick Info</h3>
-        <ul>
-          <li><span class="dot" aria-hidden="true"></span><strong>YouTube</strong> Showcase videos and asset walkthroughs.</li>
-          <li><span class="dot" aria-hidden="true"></span><strong>Discord</strong> News, release notes, community chat (coming soon).</li>
-          <li><span class="dot" aria-hidden="true"></span><strong>Assets</strong> Optimized for Unity, easy to integrate, documented.</li>
-        </ul>
-
-        <div style="margin-top:12px;color:var(--muted);font-size:13px">
-          <strong>Pro tip</strong><br>
-          Use clear showcase videos and short setup guides to increase trust and conversions on the Asset Store.
-        </div>
-      </aside>
-    </section>
+    </div>
   </main>
+
+  <!-- Products Modal -->
+  <div class="overlay" id="productsOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="productsTitle">
+      <header>
+        <h2 id="productsTitle">Featured Products</h2>
+        <button class="close" data-close="productsOverlay">Close</button>
+      </header>
+      <div class="content" id="productsContent" tabindex="0" style="max-height:68vh;">
+        <div class="product"><h4>office camera rotation system</h4><p> with this asset you can place gameobjects which will act as segments that the camera can rotate to </p></div>
+        <div class="product"><h4>nothing to see here..yet!</h4><p></p></div>
+        <div class="product"><h4>nothing to see here..yet!</h4><p></p></div>
+        <div class="product"><h4>nothing to see here..yet!</h4><p></p></div>
+        <div class="product"><h4>nothing to see here..yet!</h4><p></p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div class="overlay" id="aboutOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <header>
+        <h2 id="aboutTitle">About Kovemo</h2>
+        <button class="close" data-close="aboutOverlay">Close</button>
+      </header>
+      <div class="content" style="max-height:68vh;">
+        <p><strong>i</strong> create polished Unity assets designed for easy integration and performance. Each asset includes documentation and example scenes.</p>
+        <p>On YouTube you will find short showcase videos,The Discord server hosts release announcements and community chat.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="overlay" id="contactOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <header>
+        <h2 id="contactTitle">Contact</h2>
+        <button class="close" data-close="contactOverlay">Close</button>
+      </header>
+      <div class="content" style="max-height:68vh;">
+        <p style="color:var(--muted)">For support and licensing questions, email:</p>
+        <p><strong>kleb258@gmail.com</strong></p>
+        <p style="color:var(--muted)">(click to open mail client)</p>
+        <p><a href="mailto:kleb258@example.com" style="color:var(--accent);text-decoration:underline">kleb258@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Utility: create ripple on button click */
+    function createRipple(e, el) {
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.6;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      el.appendChild(ripple);
+      ripple.animate([
+        { transform: 'scale(0)', opacity: 0.9 },
+        { transform: 'scale(1)', opacity: 0.18 }
+      ], { duration: 420, easing: 'cubic-bezier(.2,.9,.2,1)' });
+      setTimeout(() => ripple.remove(), 520);
+    }
+
+    /* WebAudio: short satisfying click/pop sound */
+    const AudioEngine = (function(){
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      function playClick() {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(700, now);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.26);
+      }
+      function playPop() {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(720, now + 0.12);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.14, now + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+      return { playClick, playPop, ctx };
+    })();
+
+    /* Open/close overlays with animations and sounds */
+    function openOverlay(id) {
+      const ov = document.getElementById(id);
+      if (!ov) return;
+      ov.classList.add('active');
+      ov.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      AudioEngine.playPop();
+      // focus content for keyboard scroll
+      const content = ov.querySelector('.content');
+      if (content) content.focus();
+    }
+    function closeOverlay(id) {
+      const ov = document.getElementById(id);
+      if (!ov) return;
+      ov.classList.remove('active');
+      ov.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      AudioEngine.playClick();
+    }
+
+    // Wire buttons and add ripple + sound
+    function wireButton(selector, onClick) {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      el.addEventListener('click', (e) => {
+        // resume audio context on first user gesture if needed
+        if (AudioEngine.ctx.state === 'suspended') AudioEngine.ctx.resume();
+        createRipple(e, el);
+        // short delay so ripple is visible before action
+        setTimeout(() => {
+          AudioEngine.playClick();
+          onClick && onClick(e);
+        }, 80);
+      });
+    }
+
+    // Buttons
+    wireButton('#productsBtn', () => openOverlay('productsOverlay'));
+    wireButton('#aboutBtn', () => openOverlay('aboutOverlay'));
+    wireButton('#contactBtn', () => openOverlay('contactOverlay'));
+
+    // YouTube and Discord are links; add ripple and sound but keep navigation
+    document.querySelectorAll('a.btn').forEach(a => {
+      a.addEventListener('click', (e) => {
+        if (AudioEngine.ctx.state === 'suspended') AudioEngine.ctx.resume();
+        createRipple(e, a);
+        AudioEngine.playClick();
+        // allow default navigation to proceed
+      });
+    });
+
+    // Close buttons
+    document.querySelectorAll('.close').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = btn.getAttribute('data-close');
+        if (target) closeOverlay(target);
+      });
+    });
+
+    // Click outside modal to close
+    document.querySelectorAll('.overlay').forEach(ov => {
+      ov.addEventListener('click', (e) => {
+        if (e.target === ov) {
+          ov.classList.remove('active');
+          ov.setAttribute('aria-hidden','true');
+          document.body.style.overflow = '';
+          AudioEngine.playClick();
+        }
+      });
+    });
+
+    // Escape key closes overlays
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.overlay.active').forEach(ov => {
+          ov.classList.remove('active');
+          ov.setAttribute('aria-hidden','true');
+        });
+        document.body.style.overflow = '';
+        AudioEngine.playClick();
+      }
+    });
+
+    // Accessibility: keep focus inside modal when open (simple)
+    document.addEventListener('focusin', (e) => {
+      const active = document.querySelector('.overlay.active');
+      if (!active) return;
+      if (!active.contains(e.target)) {
+        const focusable = active.querySelector('.content') || active;
+        if (focusable) focusable.focus();
+      }
+    });
+
+    // Optional: subtle parallax on mouse move to enhance star motion
+    (function starParallax(){
+      const stars = document.querySelector('.stars');
+      if (!stars) return;
+      let lastX = 0, lastY = 0;
+      window.addEventListener('mousemove', (e) => {
+        const cx = (e.clientX / window.innerWidth - 0.5) * 12; // range -6..6
+        const cy = (e.clientY / window.innerHeight - 0.5) * 8; // range -4..4
+        // smooth
+        lastX += (cx - lastX) * 0.08;
+        lastY += (cy - lastY) * 0.08;
+        stars.style.transform = `translate3d(${lastX}px, ${lastY}px, 0)`;
+      });
+    })();
+  </script>
 </body>
 </html>
